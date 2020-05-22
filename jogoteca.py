@@ -77,8 +77,8 @@ def send_contact():
         asn=request.form['asn'],
         company=request.form['company'],
         local=request.form['local'],
-        noc_name=request.form['ipv4'],
-        noc_email=request.form['ipv6']
+        IPV4=request.form['ipv4'],
+        IPV6=request.form['ipv6']
 
   """ 
   )
@@ -91,10 +91,7 @@ def send_contact():
     ) 
     
  """
-
     resp = response.json()
     if resp['success']:
-        _send_email_gcom(data)
-        _send_email_client(data)
 
-        return render_template('form_validation.html', person_email=data['person_email'])
+        return render_template('form_validation.html', ASN=data['AS'])

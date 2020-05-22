@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+a# -*- coding: utf-8 -*-
 from jinja2 import Environment, FileSystemLoader
 import os
 import sys
