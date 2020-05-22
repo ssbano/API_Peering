@@ -1,0 +1,85 @@
+{% if conf.tipo == "vlan" %}
+!ROT-CM-01/02
+
+
+{% if conf.ipv6 %}
+{% set route_map = conf.nome + "v6-viaPTT" %}
+{% endif %}
+
+! POLÍTICA IN V6
+
+route-map {{ route_map }}-IN deny 10
+ match ipv6 address prefix-list REDES_PRIVADASv6
+route-map {{ route_map }}-IN deny 20
+ match as-path  AS_PRIVADOS
+route-map {{ route_map }}-IN permit 30
+ set community  no-export additive
+
+! POLÍTICA OUT V6
+
+route-map {{ route_map }}-OUT deny 1
+ match ipv6 address prefix-list SOMENTE-GLOBOCOM-NETWORK-DENY-TRANSITO-NAO-ALTERARv6
+ continue 2
+route-map {{ route_map }}-OUT permit 3
+ match ipv6 address prefix-list GLOBOCOM-CDNv6
+ set origin igp
+route-map {{ route_map }}-OUT deny 5
+ match ipv6 address prefix-list ANYv6
+
+{% endif -%}
+
+
+{% for ipv4 in conf.ipv4 %}
+!ROT-CM-01/02
+router bgp
+neighbor {{ ipv4 }} remote-as {{ conf.asn }}
+neighbor {{ ipv4 }} ebgp-multihop 1
+neighbor {{ ipv4 }} description {{ conf.nome }}-AS{{ conf.asn }}-VIA_PTT
+
+{% if conf.tipo == "ptt" -%}
+neighbor {{ ipv4 }} update-source ve 10
+{% elif conf.tipo == "vlan" -%}
+
+
+neighbor {{ ipv4 }} update-source {{ conf.interface_ve[conf.ipv4.index(ipv4)] }}
+{% else %}
+neighbor {{ ipv4 }} update-source {{ conf.interface[conf.ipv4.index(ipv4)] }}
+{% endif -%}
+neighbor {{ ipv4 }} remove-private-as
+neighbor {{ ipv4 }} soft-reconfiguration inbound
+
+{% if conf.ipv6[conf.ipv4.index(ipv4)] %}
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }}  remote-as {{ conf.asn }}
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} ebgp-multihop 1
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} description {{ conf.nome }}-AS{{ conf.asn }}-VIA_PTT
+{% if conf.tipo == "ptt" -%}
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} update-source ve 11
+{% elif conf.tipo == "vlan" -%}
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} update-source {{ conf.interface_ve[conf.ipv4.index(ipv4)] }}
+{% else %}
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} update-source {{ conf.interface[conf.ipv4.index(ipv4)] }}
+{% endif -%}
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} remove-private-as
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} soft-reconfiguration inbound
+{% endif %}
+address-family ipv4 unicast
+{% if conf.tipo == "direto" %}
+neighbor {{ ipv4 }} route-map in PEERING-LINK-DIRETO-IN
+neighbor {{ ipv4 }} route-map out PEERING-LINK-DIRETO-OUT
+{% else %}
+neighbor {{ ipv4 }} route-map in PEERING-BILATERAL-IX-IN
+neighbor {{ ipv4 }} route-map out PEERING-BILATERAL-IX-OUT
+{% endif %}
+neighbor {{ ipv4 }} maximum-prefix {{ conf.prefix }}
+neighbor {{ ipv4 }} send-community
+
+{% if conf.ipv6[conf.ipv4.index(ipv4)] %}
+no neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} activate
+
+address-family ipv6 unicast
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} activate
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} route-map in {{ route_map }}-IN
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} route-map out {{ route_map }}-OUT
+neighbor {{ conf.ipv6[conf.ipv4.index(ipv4)] }} maximum-prefix {{ conf.prefix }}
+{% endif -%}
+{% endfor %}

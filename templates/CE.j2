@@ -1,0 +1,63 @@
+!ROT-CE-01/02
+
+{% if conf.ipv6 %}
+{% set route_map = conf.nome + "v6-viaPTT" %}
+{% endif %}
+
+! POLÍTICA IN V6
+ route-map {{ route_map }}-IN deny 10
+    match ipv6 address prefix-list REDES_PRIVADASv6
+ route-map {{ route_map }}-IN deny 20
+    match as-path  AS_PRIVADOS
+ route-map {{ route_map }}-IN permit 30
+    set community  no-export additive
+
+! POLÍTICA OUT V6
+ route-map {{ route_map }}-OUT deny 1
+    match ipv6 address prefix-list SOMENTE-GLOBOCOM-NETWORK-DENY-TRANSITO-NAO-ALTERARv6
+    continue 2
+ route-map {{ route_map }}-OUT permit 3
+    match ipv6 address prefix-list GLOBOCOM-CDNv6
+    set origin igp
+ route-map {{ route_map }}-OUT deny 5
+    match ipv6 address prefix-list ANYv6
+
+{% endif %}
+
+! NEIGHBORS ####################
+
+
+{% if conf.tipo == "ptt" %}
+router bgp 28604
+{% for ipv4 in conf.ipv4 -%}
+!ROT-CE-01
+  neighbor {{ ipv4 }} remote-as {{ conf.asn }}
+     ebgp-multihop 2
+     {% if conf.senha %}
+     password {{ conf.senha }}
+     {%- endif -%}
+     description {{ conf.nome }}-AS{{ conf.asn }}-VIA_PTT-CE
+     update-source Vlan
+     remove-private-as
+     address-family ipv4 unicast
+        route-map PEERING-BILATERAL-IX-IN in
+        route-map PEERING-BILATERAL-IX-OUT out
+        send-community
+	    soft-reconfiguration inbound
+{%- endfor -%}
+ {% if conf.ipv6 -%}
+ {% for ipv6 in conf.ipv6 -%}
+  neighbor {{ ipv6 }} remote-as {{ conf.asn }}
+     ebgp-multihop 2
+     description {{ conf.nome }}-AS{{ conf.asn }}-VIA_PTT-CE
+     update-source Vlan2336
+     remove-private-as
+     address-family ipv6 unicast
+         route-map in {{ route_map }}-IN
+         route-map out {{ route_map }}-OUT
+         soft-reconfiguration inbound
+    {%- endfor -%}
+  {%- endif -%}
+
+
+{% for ipv4 in conf.ipv4 %}
