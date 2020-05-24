@@ -1,0 +1,306 @@
+@import url(https://fonts.googleapis.com/css?family=Dancing+Script|Roboto);
+
+
+h1{
+    font-family: roboto;
+}
+
+label{
+    margin-top: 10px;
+    font-family: roboto;
+}
+
+input{
+    font-family: roboto;
+}
+
+.back{
+	background-color: #f2f5f9;
+}
+
+.tab {
+    margin: auto;
+    margin-top: 30px;
+    overflow: hidden;
+    background-color: rgb(30, 142, 255);
+    border: 1px solid dodgerblue;
+    border-bottom: none;
+    width: 840px;
+    border-radius: 4px 4px 0px 0px;
+}
+
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    transition: 0.4s;
+    color: white;
+	box-shadow: 0px 1px 0px 0px #d7dded;
+    font-size: 17px;
+}
+
+.tab button:hover {
+    background-color: rgb(25, 123, 221);
+}
+
+.tab button.active {
+    background-color: white;
+    color: black;
+}
+
+.titulo {
+    font-size: 21px;
+}
+
+
+.containerc {
+    margin: auto;
+    background-color: white;
+    padding: 20px 20px 10px 20px;
+    border: 1px solid dodgerblue;
+    border-top: none;
+    border-radius: 0px 0px 4px 4px;
+	box-shadow: 0px 1px 10px 0px #d7dded;
+    width: 800px;
+}
+
+
+.cselect {
+    position: relative;
+    font-family: roboto;
+}
+
+option {
+    font-family: roboto;
+    color: rgb(194, 194, 194);
+}
+
+option:hover {
+	background-color: rgb(253, 253, 254);
+}
+
+
+.emailT {
+    text-align: left;
+	margin: 10px 285px 10px 10px;
+}
+
+
+.orgT {
+    margin: 0px 0px 0px -270px;
+}
+
+
+.userwdiv2,
+.userwdiv1 {
+    position: relative;
+    display: inline-block;
+    margin: 30px 30px 30px 30px;
+}
+
+
+
+.selectdiv,
+.cbdiv {
+    display: inline-block;
+    margin-top: 30px;
+}
+
+.slist {
+    position: relative;
+    background-color: white;
+    border-radius: 3px;
+    width: 182px;
+    height: 30px;
+    margin-top: 5px;
+    bottom: -5px;
+	left: 24px;
+}
+.slist2 {
+    position: relative;
+    background-color: white(252, 252, 253);
+    border-radius: 3px;
+    width: 182px;
+    height: 30px;
+    margin-top: 5px;
+    bottom: -5px;
+	left: 24px;
+}
+
+.slist:hover {
+    background-color: rgb(252, 252, 253);
+}
+
+.peeringT {
+    position: relative;
+    bottom: -8px;
+}
+
+.asT {
+	position: relative;
+    bottom: 28px;
+	left: 45px;
+}
+
+.check {
+    display: block;
+    position: relative;
+    margin-right: 230px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-size: 17px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.check input {
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 60px;
+    margin: 0px 0px 0px -100px;
+    height: 25px;
+    width: 25px;
+    background-color: rgb(240, 240, 242);
+}
+
+.check:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.check input:checked ~ .checkmark {
+    background-color: dodgerblue;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.check input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.check .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+  }
+
+.switch input {
+    display:none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 17px;
+    width: 17px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: dodgerblue;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px dodgerblue;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(17px);
+    -ms-transform: translateX(17px);
+    transform: translateX(17px);
+}
+
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.userw, input[type=password]{
+	font-family: roboto;
+    width: 330px;
+    padding: 10px;
+    margin-top: 3px;
+    display: inline-block;
+    border: none;
+    background: rgb(240, 240, 242);
+    border-radius: 3px;
+}
+
+.userw:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+
+.obs {
+	font-family: roboto;
+	width: 725px;
+}
+
+.list {
+    margin-top: 90px;
+}
+.btn{
+    font-family: roboto;
+    border: none;
+    color: white;
+    height: 30px;
+    width: 100px;
+    padding: 15px, 30px;
+    text-align: center;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 4px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    margin: 10px 25px 10px 25px;
+}
+.insert {
+    background-color: dodgerblue;
+}
