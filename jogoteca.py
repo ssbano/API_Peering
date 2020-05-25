@@ -2,7 +2,8 @@ from flask import Flask, render_template, request, redirect, session, flash, url
 from dao import JogoDao, UsuarioDao
 from flask_mysqldb import MySQL
 from models import Jogo, Usuario
-
+from jinja2 import Environment, PackageLoader
+# -*- coding: utf-8 -*
 
 app = Flask(__name__)
 app.secret_key = 'alura'
@@ -93,5 +94,8 @@ def send_contact():
  """
     resp = response.json()
     if resp['success']:
-
+         with
+            open('templates') as file_:
+                 arquivos_de_saida = Template(file_.read())
+                 template.render(name='John')
         return render_template('form_validation.html', ASN=data['AS'])

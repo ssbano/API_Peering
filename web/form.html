@@ -1,98 +1,83 @@
 <html>
 <head>
     <meta charset="UTF-8">
-
     <link rel="stylesheet" type="text/css" href="hstyle.css">
-
 </head>
-
 <body onload="changeTabs(event, 'cadastro')" class = "back" >
-
-
 <div style="text-align:left">
-
 <!-- <div class="containerc"> -->
     <div class="tab"><label><b>  &emsp;  </b></label>
     </div>
     <div id="cadastro" class="containerc">
         <form action="flask.." onsubmit="return validate()" method="POST">
-
             <label class="titulo"><b>Formulario de Entrada</b></label>
             <br><br>
-			<div>
-				<div class="autocompletediv2">
-					<label><b>Organização:</b><label>
-                        <div class="usewdiv">
-                            <input class="userw" id="org" type="text" name="org" placeholder="Digite o nome de sua Organização">
+          <section class="Sub-Header"></section>
+        <section class="peering-form container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-6 align-self-center">
+                    <form name="peering-form" method="POST" action=" {{ url_for('apps.send_contact') }} ">
+                        <div class="Block-Form">
+                            <div class="Info-Fields-Form">
+                                <p class="BodyForm">ASN:</p>
+                                <p id="block-asn">
+                                    <input id="asn" class="Form-Inputs" type="text" name="asn" required>
+                                </p>
+                            </div>
+                        <div class="Info-Fields-Form">
+                                <p class="BodyForm">Organização:</p>
+                                <p id="block-asn">
+                                    <input id="Company" class="Form-Inputs" type="text" name="Organização" required>
+                                </p>
                         </div>
-				</div>
-        <p></p>
-
-                <div class="autocompletediv2">
-					<label> <b>AS: &ensp;</b></label>
-					<input class="userw userwplaca " id="as" name="as" placeholder="Digite o AS" required>
-                </div>
-
-                <div class="autocompletediv2">
-					<label> <b>IPV4:</b></label>
-					<input class="userw userwplaca" id="ipv4" name="ipv4" placeholder="Digite o IPV4" required>
-                </div>
-
-                <div class="autocompletediv2">
-					<label> <b>IPV6:</b></label>
-					<input class="userw userwplaca" id="ipv6" name="ipv6" placeholder="Digite o IPV6" required>
+                        <div class="Info-Fields-Form">
+                                <p class="BodyForm">IPV4:</p>
+                                <p id="block-asn">
+                                    <input id="IPV4" class="Form-Inputs" type="text" name="IPV4" required>
+                                </p>
+                        </div>
+                       <div class="Info-Fields-Form">
+                                <p class="BodyForm">IPV6:</p>
+                                <p id="block-asn">
+                                    <input id="IPV6" class="Form-Inputs" type="text" name="IPV6" required>
+                                </p>
+                        </div>
+                        <p></p>
+                            <div class="selectdiv">
+                                <div>
+                                    <label class="localizacaoT"><b>Localização</b></label>
+                                    <div class="cselect">
+                                        <select class="slist" id="slist">
+                                            <option value="0">Selecione sua Localização</option>
+                                            <option value="1">Rio de Janeiro</option>
+                                            <option value="2">São Paulo</option>
+                                            <option value="3">Ceara</option>
+                                        </select>
+                                    </div>
+                                <div>
+                                <label class="peeringT"><b>Peering</b></label>
+                                <div class="cselect">
+                                    <select class="slist2" id="slist2">
+                                        <option value="0">Selecione seu Peering</option>
+                                        <option value="1">Peering Público(ATM via lx)</option>
+                                    </select>
+                                </div>
+                                </div>
+                            </div>
+            <div class="Block-Form">
+                            <div class="g-recaptcha"
+                                 data-sitekey="6LdNXLwUAAAAAMWpn7DliyQsEvMZ59tqto_BTy4s"></div>
+                        </div>
+                        <div>
+                            <p><button id="enviar" class="btn btn-block btn-primary" type="submit">Enviar</button></p>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-
-			<div class="selectdiv">
-                <div>
-                    <label class="localizacaoT"><b>Localização</b></label>
-                    <div class="cselect">
-                        <select class="slist" id="slist">
-                            <option value="0">Selecione sua Localização</option>
-                            <option value="1">Rio de Janeiro</option>
-                            <option value="2">São Paulo</option>
-                            <option value="3">Belo Horizonte</option>
-                        </select>
-                    </div>
-				<div>
-                <label class="peeringT"><b>Peering</b></label>
-				<div class="cselect">
-					<select class="slist2" id="slist2">
-						<option value="0">Selecione seu Peering</option>
-						<option value="1">Peering Público(ATM via lx)</option>
-                        <option value="2">.....</option>
-                        <option value="3">.....</option>
-					</select>
-				</div>
-                </div>
-            </div>
-
-
-
-            <div class="userwdiv1">
-                    <label class="emailT"><b>Nome</b></label>
-                    <div>
-                        <input class="userw" type="text" placeholder="Digite o nome" id="name" name="name" required>
-                    </div>
-                </div>
-
-                <div class="userwdiv2">
-                    <label class="emailT"><b>Email</b></label>
-                    <div>
-                        <input class="userw" type="email" placeholder="Digite o Email" id="email" name="email" required>
-
-                    </div>
-                </div>
-
-            <div class="clearFix">
-                <div style="text-align:center">
-                <button type="submit" class="insert btn">Enviar</button>
-            </div>
-			</div>
+        </section>
         </form>
+            </form>
+        </div>
     </div>
-</div>
-</body>
-</html>
+    </body>
+    </html>
