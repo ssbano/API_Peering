@@ -18,29 +18,11 @@ db = MySQL(app)
 jogo_dao = JogoDao(db)
 usuario_dao = UsuarioDao(db)
 
-
-@app.route('/')
-def index():
-    lista = jogo_dao.listar()
-    return render_template('lista.html', titulo='Jogos', jogos=lista)
-
-
 @app.route('/novo')
 def novo():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login', proxima=url_for('novo')))
-    return render_template('novo.html', titulo='Novo Jogo')
-
-
-@app.route('/criar', methods=['POST',])
-def criar():
-    nome = request. form['nome']
-    categoria = request. form['categoria']
-    console = request. form['console']
-    jogo = Jogo(nome, categoria, console)
-    jogo_dao.salvar(jogo)
-    return redirect(url_for('index'))
-
+    return render_template('form.html', titulo='formulario')
 
 @app.route('/login')
 def login():
@@ -74,24 +56,14 @@ app.run(debug=True)
 @apps.route('/send_contact', methods=['POST'])
 def send_contact():
 
+
     data = dict(
         asn=request.form['asn'],
         company=request.form['company'],
         local=request.form['local'],
         IPV4=request.form['ipv4'],
         IPV6=request.form['ipv6']
-
-  """ 
-  )
-    secretkey = os.getenv('RECAPTCHA_KEY')
-    api = os.getenv('RECAPTCHA_URL')
-    responsekey = request.form['g-recaptcha-response']
-    response = requests.post(
-        api.format(secretkey, responsekey),
-        proxies=proxies
-    ) 
-    
- """
+    )
     resp = response.json()
     if resp['success']:
          with
@@ -99,3 +71,29 @@ def send_contact():
                  arquivos_de_saida = Template(file_.read())
                  template.render(name='John')
         return render_template('form_validation.html', ASN=data['AS'])
+
+    # formatando a saida de acordo com o tipo de arquivo a ser salvo
+    arq_saida = f"{settings.SAIDA}{localidade.upper()}/{self._variables['tipo'].upper()}/"
+
+    try:
+        # caso nao exista o diretorio, tentar cria-lo
+        try:
+            os.makedirs(arq_saida)
+        except FileExistsError:
+            pass
+
+        output_file = f"{self._variables['asn']}_{self._variables['nome']}_{localidade.upper()}_{self._variables['tipo'].upper()}_{date}"
+        file_loader = FileSystemLoader(settings.TEMPLATES)
+        env = Environment(loader=file_loader)
+
+        template = env.get_template(f"{localidade.upper()}.j2")
+
+        output = template.render(conf=self._variables)
+
+        with open(f"{arq_saida}{output_file}.txt", "w") as outfile:
+            outfile.write(output)
+
+        (f"Arquivo de configuracao salvo em {arq_saida}{output_file}.txt")
+
+    except Exception as err:
+        raise err
