@@ -69,11 +69,11 @@ def send_contact():
          with
             open('templates') as file_:
                  arquivos_de_saida = Template(file_.read())
-                 template.render(name='John')
+                 template.render(name='')
         return render_template('form_validation.html', ASN=data['AS'])
 
     # formatando a saida de acordo com o tipo de arquivo a ser salvo
-    arq_saida = f"{settings.SAIDA}{localidade.upper()}/{self._variables['tipo'].upper()}/"
+    arquivos_de_saida = f"{settings.SAIDA}{localidade.upper()}/{self._variables['tipo'].upper()}/"
 
     try:
         # caso nao exista o diretorio, tentar cria-lo
